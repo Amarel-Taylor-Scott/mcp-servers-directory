@@ -231,6 +231,11 @@ SERVERS: list[Server] = [
            Category.data_apis, "Anthropic (reference)", official=True, language="Python",
            install="uvx mcp-server-time",
            repo="https://github.com/modelcontextprotocol/servers", tags=("time", "reference")),
+    Server("Xquik", "Access X data and automation workflows through Xquik's hosted MCP endpoint.",
+           Category.data_apis, "Xquik", official=True, transports=(Transport.http,), language="TypeScript",
+           install="npx -y mcp-remote@0.1.38 https://xquik.com/mcp",
+           repo="https://github.com/Xquik-dev/x-twitter-scraper", homepage="https://xquik.com",
+           auth_required=True, tags=("x", "social", "api")),
 
     # --- AI / ML ---
     Server("EverArt", "Generate images via the EverArt API.",
