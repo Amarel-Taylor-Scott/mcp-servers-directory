@@ -219,6 +219,12 @@ SERVERS: list[Server] = [
            repo="https://github.com/MarkusPfundstein/mcp-obsidian", tags=("notes", "markdown")),
 
     # --- Data & external APIs ---
+    Server("Xquik", "Search public X posts, inspect profiles, and call X data workflows.",
+           Category.data_apis, "Xquik", official=True, transports=(Transport.http,), language="TypeScript",
+           install="(remote) https://xquik.com/mcp",
+           repo="https://github.com/Xquik-dev/x-twitter-scraper",
+           homepage="https://docs.xquik.com/mcp/overview", auth_required=True,
+           tags=("x", "social", "api", "mcp")),
     Server("Google Maps", "Geocoding, places, directions and distance via Google Maps APIs.",
            Category.data_apis, "Community", language="TypeScript",
            install="npx -y @modelcontextprotocol/server-google-maps",

@@ -86,11 +86,28 @@ def cmd_export(args: argparse.Namespace) -> int:
         print(json.dumps(data, indent=2))
     else:  # csv
         import csv
-        cols = ["name", "category", "maintainer", "official", "language", "auth_required", "repo", "install"]
+
+        cols = [
+            "name",
+            "description",
+            "category",
+            "maintainer",
+            "official",
+            "transports",
+            "language",
+            "install",
+            "repo",
+            "homepage",
+            "auth_required",
+            "tags",
+        ]
         w = csv.writer(sys.stdout)
         w.writerow(cols)
         for d in data:
-            w.writerow([d.get(c, "") for c in cols])
+            w.writerow([
+                ";".join(value) if isinstance(value, list) else value
+                for value in (d.get(column, "") for column in cols)
+            ])
     return 0
 
 

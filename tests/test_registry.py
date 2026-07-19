@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import csv
+import io
 import json
+from argparse import Namespace
 
 import data
 import report
@@ -42,6 +45,29 @@ def test_export_json_roundtrips():
     back = json.loads(blob)
     assert len(back) == len(data.SERVERS)
     assert all("name" in r and "category" in r for r in back)
+
+
+def test_export_csv_preserves_registry_fields(capsys):
+    assert cli.cmd_export(Namespace(format="csv")) == 0
+
+    rows = list(csv.DictReader(io.StringIO(capsys.readouterr().out)))
+
+    assert len(rows) == len(data.SERVERS)
+    assert set(rows[0]) == {
+        "name",
+        "description",
+        "category",
+        "maintainer",
+        "official",
+        "transports",
+        "language",
+        "install",
+        "repo",
+        "homepage",
+        "auth_required",
+        "tags",
+    }
+    assert all(row["description"] and row["transports"] for row in rows)
 
 
 def test_cli_search_and_list_build():

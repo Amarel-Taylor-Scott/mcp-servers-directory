@@ -67,6 +67,8 @@ def generate() -> str:
     out.append(f"- **{total}** servers across **{len(categories)}** categories")
     out.append(f"- **{official}** official / first-party servers (✅)")
     out.append("- 🔑 = requires an API key / auth · transports: `stdio`, `sse`, `http`\n")
+    out.append('Xquik is an independent third-party service. Not affiliated with X Corp. '
+               '"Twitter" and "X" are trademarks of X Corp.\n')
 
     out.append("## Servers by category\n")
     for cat in sorted(by_cat, key=lambda c: c.label):
