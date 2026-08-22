@@ -245,4 +245,10 @@ SERVERS: list[Server] = [
            Category.memory_knowledge, "Chroma", official=True, language="Python",
            install="uvx chroma-mcp",
            repo="https://github.com/chroma-core/chroma-mcp", tags=("vector", "rag")),
+
+    Server("Pocket Drives", "Search peer-to-peer luxury, exotic, and EV rentals from independent hosts.",
+           Category.data_apis, "PocketList Inc", transports=(Transport.http,), language="TypeScript",
+           install="(remote Streamable HTTP) https://pocketdrives.ai/mcp",
+           repo="https://github.com/RevList/pocket-drives-mcp", homepage="https://pocketdrives.ai",
+           auth_required=False, tags=("travel", "rental", "marketplace")),
 ]
