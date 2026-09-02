@@ -245,4 +245,12 @@ SERVERS: list[Server] = [
            Category.memory_knowledge, "Chroma", official=True, language="Python",
            install="uvx chroma-mcp",
            repo="https://github.com/chroma-core/chroma-mcp", tags=("vector", "rag")),
+
+    # --- Social media & marketing ---
+    Server("BulkPublish", "Approval-first social content adaptation, scheduling, and publishing.",
+           Category.communication, "BulkPublish", transports=(Transport.http,), language="TypeScript",
+           install="(remote) https://mcp.bulkpublish.com/mcp",
+           repo="https://github.com/azeemkafridi/bulkpublish-api",
+           homepage="https://app.bulkpublish.com/docs", auth_required=True,
+           tags=("social-media", "marketing", "publishing", "scheduling")),
 ]
