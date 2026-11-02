@@ -232,6 +232,12 @@ SERVERS: list[Server] = [
            install="uvx mcp-server-time",
            repo="https://github.com/modelcontextprotocol/servers", tags=("time", "reference")),
 
+    # --- Monitoring ---
+    Server("Kilobat CLI", "Monitor and diagnose network connections on macOS 14+ (Xcode 16+ required to build).",
+           Category.monitoring, "Philip Seifi", official=True, language="Swift",
+           install="brew install seifip/kilobat/kilobat",
+           repo="https://github.com/seifip/kilobat-cli", tags=("network", "macos", "diagnostics")),
+
     # --- AI / ML ---
     Server("EverArt", "Generate images via the EverArt API.",
            Category.ai_ml, "Community", language="TypeScript",
