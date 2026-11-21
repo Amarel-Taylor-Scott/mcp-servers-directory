@@ -1,0 +1,7 @@
+group	scope	query	targets	rationale
+creative-expansion-positive	design	turn a Figma mockup into code using our existing components	design:figma-design-to-code	Translates Figma nodes into the target codebase using its components and tokens.
+creative-expansion-positive	motion	cue stage lights and MIDI while live coding shaders for a show	motion:ossia-score	Coordinates stage lighting and MIDI with live-coded shader effects.
+creative-expansion-positive	motion	clean up scanned pencil drawings and time them on an exposure sheet	motion:opentoonz	Supports scanned drawing cleanup and timing on an exposure sheet.
+creative-expansion-positive	all	make my R chart animate as the data changes over time	motion:gganimate	Animates ggplot2 data across states and time.
+creative-expansion-positive	all	check an IMF film delivery before sending it to a distributor	motion:netflix-photon	Validates IMF delivery components, including playlists and track files.
+creative-expansion-negative	motion	separate the singer's voice from the backing track in my finished mix		No cataloged motion tool documents separating an existing audio mix into vocal and instrumental stems.
