@@ -58,6 +58,7 @@ def generate() -> str:
     out.append("pip install -e .            # or: pip install -r requirements.txt")
     out.append("mcp-dir list                # list all servers")
     out.append("mcp-dir search postgres     # search name/description/tags")
+    out.append("mcp-dir packs video --format json  # find seed packs, with pinned guides and manifests")
     out.append("mcp-dir categories          # show categories + counts")
     out.append("mcp-dir export --format json > servers.json")
     out.append("mcp-dir generate            # regenerate this README")
@@ -81,6 +82,8 @@ def generate() -> str:
     out.append("[ta-amps projects and seed packs](resources/ta-amps.md) connects Teleion Fabric, "
                "Herma and Eranos to reusable task templates. "
                "[Browse the full seed pack index](resources/ta-amps-seedpacks.csv).\n")
+    out.append("For portable skill formats, agent extensions and marketplaces, see the "
+               "[AI Agent Skills & Extensions Directory](https://github.com/Amarel-Taylor-Scott/ai-agent-skills-directory).\n")
 
     out.append("## What is MCP?\n")
     out.append("The Model Context Protocol standardizes how applications provide context to "
