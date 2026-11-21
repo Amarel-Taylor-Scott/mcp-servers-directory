@@ -238,7 +238,7 @@ SERVERS: list[Server] = [
            repo="https://github.com/modelcontextprotocol/servers", tags=("time", "reference")),
 
     # --- Monitoring ---
-    Server("Kilobat CLI", "Monitor and diagnose network connections on macOS 14+ (Xcode 16+ required to build).",
+    Server("Kilobat CLI", "Monitor and configure macOS 14+ networking; GPL-3.0-only CLI, Xcode 16+ build; some features need proprietary app tiers.",
            Category.monitoring, "Philip Seifi", official=True, language="Swift",
            install="brew install seifip/kilobat/kilobat",
            repo="https://github.com/seifip/kilobat-cli", tags=("network", "macos", "diagnostics")),
@@ -256,4 +256,22 @@ SERVERS: list[Server] = [
            Category.memory_knowledge, "Chroma", official=True, language="Python",
            install="uvx chroma-mcp",
            repo="https://github.com/chroma-core/chroma-mcp", tags=("vector", "rag")),
+
+    # --- Additional first-party resources ---
+    Server("Context7", "Retrieve library documentation and code examples via a hosted API; API key recommended for higher limits.",
+           Category.dev_tools, "Upstash", official=True, transports=(Transport.http,),
+           install="(remote HTTP) https://mcp.context7.com/mcp",
+           repo="https://github.com/upstash/context7", homepage="https://context7.com",
+           tags=("documentation", "libraries", "retrieval", "optional-api-key")),
+    Server("Chrome DevTools", "Inspect and automate Chrome, analyze network requests, and record performance traces; requires Node.js and Chrome.",
+           Category.browser, "Chrome DevTools", official=True, language="TypeScript",
+           install="npx -y chrome-devtools-mcp@latest --no-usage-statistics --no-performance-crux",
+           repo="https://github.com/ChromeDevTools/chrome-devtools-mcp",
+           tags=("chrome", "debugging", "performance", "automation")),
+    Server("MarkItDown", "Convert files and URLs to Markdown; local trusted use, with access to the server user's files and network.",
+           Category.productivity, "Microsoft", official=True, language="Python",
+           transports=(Transport.stdio, Transport.http, Transport.sse),
+           install="pip install markitdown-mcp",
+           repo="https://github.com/microsoft/markitdown",
+           tags=("markdown", "documents", "conversion", "local")),
 ]

@@ -3,10 +3,16 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import data
 import report
 import main as cli
+
+
+def test_checked_in_readme_matches_registry():
+    readme = Path(report.__file__).with_name("README.md")
+    assert readme.read_text(encoding="utf-8") == report.generate() + "\n"
 
 
 def test_registry_nonempty():
@@ -50,3 +56,4 @@ def test_cli_search_and_list_build():
     assert ns.func is cli.cmd_search
     ns = parser.parse_args(["list", "--official"])
     assert ns.func is cli.cmd_list and ns.official is True
+
