@@ -21,6 +21,7 @@ class Category(Enum):
     version_control = "version_control"
     database = "database"
     search_web = "search_web"
+    search_engines = "search_engines"
     browser = "browser"
     dev_tools = "dev_tools"
     cloud_devops = "cloud_devops"
@@ -40,6 +41,7 @@ class Category(Enum):
             "version_control": "Version Control",
             "database": "Databases",
             "search_web": "Search & Web",
+            "search_engines": "Search & Retrieval Engines",
             "browser": "Browser Automation",
             "dev_tools": "Developer Tools",
             "cloud_devops": "Cloud & DevOps",
@@ -174,24 +176,55 @@ SERVERS: list[Server] = [
            repo="https://github.com/supabase-community/supabase-mcp", auth_required=True, tags=("postgres", "baas")),
 
     # --- Search & web ---
+    Server("Kagi", "Search the public web, news and images or retrieve page text using a Kagi API key.",
+           Category.search_web, "Kagi", official=True, language="Python", transports=(Transport.http, Transport.stdio),
+           install="(remote HTTP) https://mcp.kagi.com/mcp", repo="https://github.com/kagisearch/kagimcp",
+           auth_required=True, tags=("web", "search", "retrieval", "extraction", "news")),
+    Server("Linkup", "Search the public web and extract page content with a Linkup API key.",
+           Category.search_web, "Linkup", official=True, transports=(Transport.http, Transport.stdio),
+           install="(remote HTTP) https://mcp.linkup.so/mcp", repo="https://github.com/LinkupPlatform/linkup-mcp-server",
+           homepage="https://docs.linkup.so/pages/integrations/mcp/mcp",
+           auth_required=True, tags=("web", "search", "retrieval", "extraction")),
     Server("Brave Search", "Search the web with a Brave Search API key in BRAVE_API_KEY.",
            Category.search_web, "Brave", official=True, language="TypeScript",
            transports=(Transport.stdio, Transport.http),
            install="npx -y @brave/brave-search-mcp-server --transport stdio",
            repo="https://github.com/brave/brave-search-mcp-server",
            auth_required=True, tags=("search", "web")),
-    Server("Tavily", "LLM-optimized web search and extraction for agents.",
-           Category.search_web, "Tavily", official=True, language="Python",
-           install="uvx tavily-mcp",
-           repo="https://github.com/tavily-ai/tavily-mcp", auth_required=True, tags=("search", "rag")),
-    Server("Exa", "Neural/semantic web search and content retrieval.",
-           Category.search_web, "Exa", official=True, language="TypeScript",
-           install="npx -y exa-mcp-server",
-           repo="https://github.com/exa-labs/exa-mcp-server", auth_required=True, tags=("search", "semantic")),
+    Server("Tavily", "Search the web and extract page content using OAuth or a Tavily API key.",
+           Category.search_web, "Tavily", official=True, language="TypeScript", transports=(Transport.http, Transport.stdio),
+           install="(remote HTTP) https://mcp.tavily.com/mcp",
+           repo="https://github.com/tavily-ai/tavily-mcp", auth_required=True, tags=("web", "search", "rag", "retrieval", "extraction")),
+    Server("Exa", "Search the web semantically and retrieve pages. Anonymous hosted access has rate limits.",
+           Category.search_web, "Exa", official=True, language="TypeScript", transports=(Transport.http, Transport.stdio),
+           install="(remote HTTP) https://mcp.exa.ai/mcp",
+           repo="https://github.com/exa-labs/exa-mcp-server", tags=("web", "search", "semantic", "retrieval")),
     Server("Firecrawl", "Crawl, scrape and convert websites to clean markdown.",
            Category.search_web, "Firecrawl", official=True, language="TypeScript",
            install="npx -y firecrawl-mcp",
            repo="https://github.com/mendableai/firecrawl-mcp-server", auth_required=True, tags=("scrape", "crawl")),
+
+    # --- Search engines for indexed data ---
+    Server("Elastic Agent Builder", "Run configured search tools and query Elasticsearch data through Kibana.",
+           Category.search_engines, "Elastic", official=True, transports=(Transport.http,),
+           install="(Kibana HTTP) {KIBANA_URL}/api/agent_builder/mcp",
+           homepage="https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server",
+           auth_required=True, tags=("elasticsearch", "search", "full-text", "indexed-data", "retrieval", "esql")),
+    Server("OpenSearch", "Search indexes and inspect mappings on a configured OpenSearch cluster.",
+           Category.search_engines, "OpenSearch Project", official=True, language="Python",
+           transports=(Transport.stdio, Transport.http, Transport.sse), install="uvx opensearch-mcp-server-py",
+           repo="https://github.com/opensearch-project/opensearch-mcp-server-py",
+           auth_required=True, tags=("search", "full-text", "indexed-data", "retrieval", "mappings")),
+    Server("Meilisearch", "Discover indexes and search documents or facets through the experimental mcpRoute endpoint.",
+           Category.search_engines, "Meilisearch", official=True, language="Rust", transports=(Transport.http,),
+           install="(instance HTTP) https://<your-meilisearch-host>/mcp", repo="https://github.com/meilisearch/meilisearch",
+           homepage="https://www.meilisearch.com/docs/getting_started/integrations/mcp",
+           auth_required=True, tags=("search", "full-text", "indexed-data", "retrieval", "facets")),
+    Server("Typesense Cloud", "Manage hosted search clusters, index documents and inspect cluster metrics through Typesense Cloud.",
+           Category.search_engines, "Typesense", official=True, transports=(Transport.http,),
+           install="(remote OAuth) https://cloud.typesense.org/mcp/v1",
+           homepage="https://typesense.org/docs/guide/typesense-cloud/mcp-server.html",
+           auth_required=True, tags=("search", "indexing", "search-infrastructure", "cluster", "metrics")),
 
     # --- Browser automation ---
     Server("Agent QA", "Run web and mobile regression tests with persistent test memory. Node 24+ and FSL-1.1-ALv2 apply.",
