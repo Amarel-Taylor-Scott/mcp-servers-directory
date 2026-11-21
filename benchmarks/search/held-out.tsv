@@ -1,0 +1,11 @@
+group	scope	query	targets	rationale
+holdout-positive	servers	book an available meeting time	server:Cal.com	Calendar availability and booking are both listed.
+holdout-positive	servers	validating a Mermaid diagram	server:Mermaid Chart	Validation and rendering of Mermaid diagrams are explicit capabilities.
+holdout-positive	servers	diagnose failing browser performance traces	server:Chrome DevTools	Records browser performance traces for inspection. The task is about browser performance analysis.
+holdout-positive	servers	assessing model traces	server:MLflow	The MLflow listing supports searching traces and adding assessments.
+holdout-positive	retrievers	re-ranking candidate passages using language models	rag:rankllm	Listwise ranking of passages with hosted or local language models.
+holdout-positive	libraries	memory mapped trees for nearest neighbours	ann:annoy	Annoy uses memory-mapped static tree indexes.
+holdout-positive	packs	benchmarks and scores	pack:benchmark-scores	The benchmark scores pack covers this workflow.
+holdout-negative	servers	restore permanently deleted Slack messages		The Slack entry can search and post conversations. No catalog service promises recovery of permanently deleted Slack messages.
+holdout-negative	servers	mail a physical postcard		Catalog communication tools can send electronic messages. No listed service prints and mails postcards.
+holdout-negative	servers	issue a passport renewal		No listed service issues or renews passports.

@@ -59,12 +59,19 @@ def generate() -> str:
     out.append("mcp-dir list                # list all servers")
     out.append("mcp-dir search postgres     # search the server catalog")
     out.append("mcp-dir search retrieval --scope all --limit 5 --format json")
+    out.append('mcp-dir search "CAGRA GPU acceleration" --scope libraries --mode bm25 --limit 3')
+    out.append("mcp-dir search rag:tantivy --scope retrievers")
     out.append("mcp-dir list --category search_engines")
     out.append("mcp-dir packs video --format json  # find seed packs, with pinned guides and manifests")
     out.append("mcp-dir categories          # show categories + counts")
     out.append("mcp-dir export --format json > servers.json")
     out.append("mcp-dir generate            # regenerate this README")
     out.append("```\n")
+
+    out.append("Search defaults to the server catalog. Use `--scope all` to include ta-amps seed packs, "
+               "RAG retrievers and rerankers, and vector-search libraries. All four catalogs ship with the CLI. "
+               "Use `--mode bm25` to rank partial matches when you describe a task in your own words. "
+               "[Search examples and evaluation](resources/search-and-retrieval.md)\n")
 
     out.append("## At a glance\n")
     out.append(f"- **{total}** servers across **{len(categories)}** categories")
@@ -82,7 +89,7 @@ def generate() -> str:
 
     out.append("## Related resources\n")
     out.append("[Search and retrieval guide](resources/search-and-retrieval.md) compares index search, web retrieval, "
-               "vector search and reranking, with an offline full-text example.\n")
+               "vector search and reranking. It includes examples for searching across the catalogs offline.\n")
     out.append("[ta-amps projects and seed packs](resources/ta-amps.md) connects Teleion Fabric, "
                "Herma and Eranos to reusable task templates. "
                "[Browse the full seed pack index](resources/ta-amps-seedpacks.csv).\n")
