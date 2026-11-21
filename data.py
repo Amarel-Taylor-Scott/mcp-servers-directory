@@ -31,6 +31,7 @@ class Category(Enum):
     memory_knowledge = "memory_knowledge"
     finance = "finance"
     monitoring = "monitoring"
+    visualization = "visualization"
 
     @property
     def label(self) -> str:
@@ -49,6 +50,7 @@ class Category(Enum):
             "memory_knowledge": "Memory & Knowledge",
             "finance": "Finance & Payments",
             "monitoring": "Monitoring & Observability",
+            "visualization": "Design & Visualization",
         }[self.value]
 
 
@@ -119,6 +121,11 @@ SERVERS: list[Server] = [
            repo="https://github.com/getsentry/sentry-mcp", auth_required=True, tags=("errors", "observability")),
 
     # --- Databases ---
+    Server("MotherDuck for DuckDB", "Inspect tables and run SQL on an existing local DuckDB file in read-only mode.",
+           Category.database, "MotherDuck", official=True, language="Python",
+           transports=(Transport.stdio, Transport.http),
+           install="uvx mcp-server-motherduck --db-path /absolute/path/to/your.duckdb",
+           repo="https://github.com/motherduckdb/mcp-server-motherduck", tags=("sql", "analytics", "duckdb", "local")),
     Server("PostgreSQL", "Read-only SQL queries and schema introspection over Postgres.",
            Category.database, "Community", language="TypeScript",
            install="npx -y @modelcontextprotocol/server-postgres <connection-url>",
@@ -177,6 +184,11 @@ SERVERS: list[Server] = [
            repo="https://github.com/browserbase/mcp-server-browserbase", auth_required=True, tags=("browser", "cloud")),
 
     # --- Cloud & DevOps ---
+    Server("Terraform Registry", "Look up Terraform providers, modules and policies in the public registry without a token.",
+           Category.cloud_devops, "HashiCorp", official=True, language="Go", transports=(Transport.stdio, Transport.http),
+           install="docker run -i --rm hashicorp/terraform-mcp-server",
+           repo="https://github.com/hashicorp/terraform-mcp-server",
+           homepage="https://developer.hashicorp.com/terraform/mcp-server/deploy/local", tags=("terraform", "iac", "registry")),
     Server("AWS (Core)", "Suite of servers for AWS docs, CDK, cost, and core service operations.",
            Category.cloud_devops, "AWS", official=True, language="Python",
            install="uvx awslabs.core-mcp-server",
@@ -204,7 +216,23 @@ SERVERS: list[Server] = [
            install="(remote SSE) https://mcp.linear.app/sse",
            repo="https://linear.app/docs/mcp", auth_required=True, tags=("issues", "pm")),
 
+    # --- Developer documentation ---
+    Server("DeepWiki", "Read wikis and ask questions about indexed public GitHub repositories.",
+           Category.dev_tools, "Cognition", official=True, transports=(Transport.http, Transport.sse),
+           install="(remote HTTP) https://mcp.deepwiki.com/mcp",
+           homepage="https://docs.devin.ai/work-with-devin/deepwiki-mcp", tags=("github", "docs", "code-search")),
+
     # --- Productivity & docs ---
+    Server("Atlassian", "Search and update Jira issues and Confluence pages with the connected account's permissions.",
+           Category.productivity, "Atlassian", official=True, transports=(Transport.http,), auth_required=True,
+           install="(remote HTTP) https://mcp.atlassian.com/v2/mcp",
+           homepage="https://support.atlassian.com/atlassian-ai-gateway/docs/get-started-with-the-atlassian-remote-mcp-server/",
+           tags=("jira", "confluence", "issues", "wiki")),
+    Server("Microsoft Learn", "Search Microsoft documentation and code samples, and retrieve complete articles.",
+           Category.productivity, "Microsoft", official=True, transports=(Transport.http,),
+           install="(remote HTTP) https://learn.microsoft.com/api/mcp",
+           homepage="https://learn.microsoft.com/en-us/training/support/mcp", tags=("docs", "microsoft", "code-samples")),
+
     Server("Google Drive", "Search and read files from Google Drive.",
            Category.productivity, "Community", language="TypeScript",
            install="npx -y @modelcontextprotocol/server-gdrive",
@@ -219,6 +247,15 @@ SERVERS: list[Server] = [
            repo="https://github.com/MarkusPfundstein/mcp-obsidian", tags=("notes", "markdown")),
 
     # --- Data & external APIs ---
+    Server("Data Commons", "Find public statistics for places, compare time series and retrieve sources with a Data Commons API key.",
+           Category.data_apis, "Data Commons", official=True, language="Python", transports=(Transport.http,), auth_required=True,
+           install="(remote HTTP) https://api.datacommons.org/mcp",
+           repo="https://github.com/datacommonsorg/agent-toolkit", homepage="https://docs.datacommons.org/mcp/run_tools.html",
+           tags=("open-data", "statistics", "geography", "time-series")),
+    Server("World Bank Data360", "Find development indicators, definitions and country time series. Run from the upstream checkout.",
+           Category.data_apis, "World Bank", official=True, language="Python", transports=(Transport.http, Transport.sse),
+           install="uv sync && uv run poe serve", repo="https://github.com/worldbank/data360-mcp",
+           homepage="https://worldbank.github.io/data360-mcp/", tags=("world-bank", "open-data", "indicators", "time-series")),
     Server("Google Maps", "Geocoding, places, directions and distance via Google Maps APIs.",
            Category.data_apis, "Community", language="TypeScript",
            install="npx -y @modelcontextprotocol/server-google-maps",
@@ -238,12 +275,24 @@ SERVERS: list[Server] = [
            repo="https://github.com/modelcontextprotocol/servers", tags=("time", "reference")),
 
     # --- Monitoring ---
+    Server("Grafana", "Read dashboards and query observability data with the listed read-only configuration.",
+           Category.monitoring, "Grafana Labs", official=True, language="Go", auth_required=True,
+           transports=(Transport.stdio, Transport.http, Transport.sse), install="uvx mcp-grafana --disable-write",
+           repo="https://github.com/grafana/mcp-grafana", tags=("dashboards", "metrics", "logs", "observability")),
     Server("Kilobat CLI", "Monitor and configure macOS 14+ networking; GPL-3.0-only CLI, Xcode 16+ build; some features need proprietary app tiers.",
            Category.monitoring, "Philip Seifi", official=True, language="Swift",
            install="brew install seifip/kilobat/kilobat",
            repo="https://github.com/seifip/kilobat-cli", tags=("network", "macos", "diagnostics")),
 
     # --- AI / ML ---
+    Server("Hugging Face Hub", "Search public models, datasets, Spaces and papers. Sign in for account-specific tools.",
+           Category.ai_ml, "Hugging Face", official=True, language="TypeScript", transports=(Transport.http, Transport.stdio),
+           install="(remote HTTP) https://huggingface.co/mcp", repo="https://github.com/huggingface/hf-mcp-server",
+           homepage="https://huggingface.co/docs/hub/agents-mcp", tags=("models", "datasets", "papers", "ml")),
+    Server("ElevenLabs", "Generate speech, sound effects and video using the connected workspace's credits.",
+           Category.ai_ml, "ElevenLabs", official=True, transports=(Transport.http,), auth_required=True,
+           install="(remote OAuth) https://api.elevenlabs.io/v1/mcp",
+           homepage="https://elevenlabs.io/docs/eleven-api/resources/mcp-server", tags=("voice", "audio", "video")),
     Server("EverArt", "Generate images via the EverArt API.",
            Category.ai_ml, "Community", language="TypeScript",
            install="npx -y @modelcontextprotocol/server-everart",
@@ -256,6 +305,21 @@ SERVERS: list[Server] = [
            Category.memory_knowledge, "Chroma", official=True, language="Python",
            install="uvx chroma-mcp",
            repo="https://github.com/chroma-core/chroma-mcp", tags=("vector", "rag")),
+
+    # --- Design & visualization ---
+    Server("Figma", "Read design context and create or edit content in authorized Figma files.",
+           Category.visualization, "Figma", official=True, transports=(Transport.http,), auth_required=True,
+           install="(remote HTTP) https://mcp.figma.com/mcp",
+           homepage="https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/",
+           tags=("design", "figma", "figjam", "components")),
+    Server("Mermaid Chart", "Validate and render Mermaid diagrams, and save changes to project diagrams.",
+           Category.visualization, "Mermaid Chart", official=True, transports=(Transport.http, Transport.sse), auth_required=True,
+           install="(remote HTTP) https://mcp.mermaid.ai/mcp",
+           homepage="https://mermaid.ai/docs/ai/mcp-server", tags=("mermaid", "diagrams", "flowcharts")),
+    Server("AntV Chart", "Generate charts, maps and diagrams from data using AntV's hosted renderer by default.",
+           Category.visualization, "AntV", official=True, language="TypeScript", transports=(Transport.stdio, Transport.http, Transport.sse),
+           install="npx -y @antv/mcp-server-chart", repo="https://github.com/antvis/mcp-server-chart",
+           tags=("visualization", "charts", "maps", "data")),
 
     # --- Additional first-party resources ---
     Server("Context7", "Retrieve library documentation and code examples via a hosted API; API key recommended for higher limits.",
