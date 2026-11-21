@@ -31,3 +31,10 @@ mcp-dir = "main:main"
 
 [tool.setuptools]
 py-modules = ["__version__", "data", "report", "main"]
+packages = ["mcp_directory_resources"]
+
+[tool.setuptools.package-dir]
+mcp_directory_resources = "resources"
+
+[tool.setuptools.package-data]
+mcp_directory_resources = ["ta-amps-seedpacks.csv"]

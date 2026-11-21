@@ -7,9 +7,11 @@ and regenerate the README from it.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import sys
 from dataclasses import asdict
+from importlib.resources import files
 from pathlib import Path
 
 from __version__ import __version__
@@ -59,6 +61,31 @@ def cmd_search(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_packs(args: argparse.Namespace) -> int:
+    filename = "ta-amps-seedpacks.csv"
+    index = Path(__file__).with_name("resources") / filename
+    if not index.is_file():
+        # Wheels install the same CSV as package data under a distinct package name.
+        index = files("mcp_directory_resources").joinpath(filename)
+
+    terms = " ".join(args.query).casefold().split()
+    matches = []
+    with index.open(encoding="utf-8", newline="") as stream:
+        for row in csv.DictReader(stream):
+            searchable = " ".join((row["pack_id"], row["title"], row["status"])).casefold()
+            if all(term in searchable for term in terms):
+                matches.append({**row, "task_objects": int(row["task_objects"]), "tasks": int(row["tasks"])})
+
+    if args.format == "json":
+        print(json.dumps(matches, ensure_ascii=False, indent=2))
+    else:
+        for pack in matches:
+            print(f"{pack['title']} [{pack['status']}]  {pack['task_objects']} task objects, {pack['tasks']} tasks")
+            print(f"  {pack['guide_url']}")
+        print(f"{len(matches)} seed pack(s).")
+    return 0
+
+
 def cmd_categories(_: argparse.Namespace) -> int:
     counts: dict[str, int] = {}
     for s in SERVERS:
@@ -85,8 +112,7 @@ def cmd_export(args: argparse.Namespace) -> int:
     if args.format == "json":
         print(json.dumps(data, indent=2))
     else:  # csv
-        import csv
-        cols = ["name", "category", "maintainer", "official", "language", "auth_required", "repo", "install"]
+        cols = ["name", "category", "maintainer", "official", "language", "auth_required", "repo", "install", "homepage"]
         w = csv.writer(sys.stdout)
         w.writerow(cols)
         for d in data:
@@ -120,6 +146,11 @@ def build_parser() -> argparse.ArgumentParser:
     ps = sub.add_parser("search", help="Search name/description/tags")
     ps.add_argument("query")
     ps.set_defaults(func=cmd_search)
+
+    pp = sub.add_parser("packs", help="List or search ta-amps seed packs")
+    pp.add_argument("query", nargs="*", help="Match all words against the pack ID, title or status")
+    pp.add_argument("--format", choices=["text", "json"], default="text")
+    pp.set_defaults(func=cmd_packs)
 
     sub.add_parser("categories", help="List categories + counts").set_defaults(func=cmd_categories)
     sub.add_parser("stats", help="Registry statistics").set_defaults(func=cmd_stats)
