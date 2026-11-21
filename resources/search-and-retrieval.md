@@ -1,10 +1,10 @@
 # Search and retrieval
 
-Start with the collection you want to search. A question about a pack in this repository, an item in your own index and a fact on the public web each need a different source.
+Use `mcp-dir search` to discover a tool or seed pack offline. To search your own documents or the public web, choose a provider below and query it directly.
 
 | Goal | Tools and source | What you get |
 | --- | --- | --- |
-| Find a tool or task template in this directory | `mcp-dir search retrieval --scope all --limit 5 --format json` | Ranked local metadata matches with links. Server records point to the upstream project. Pack records point to the pinned guide and manifest. |
+| Find a server, seed pack, retriever, reranker or index library | `mcp-dir search retrieval --scope all --limit 5 --format json` | Ranked local metadata matches with links. Server records point to the upstream project. Pack records link to the pinned guide and manifest. Retrieval tools and libraries link to both the project and its pinned catalog entry. |
 | Query documents your team has already indexed | [OpenSearch MCP](https://github.com/opensearch-project/opensearch-mcp-server-py), [Elastic Agent Builder](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server), [Meilisearch MCP](https://www.meilisearch.com/docs/getting_started/integrations/mcp) | Return documents or run configured queries under the cluster's permissions. Meilisearch also exposes facets. |
 | Manage hosted search infrastructure | [Typesense Cloud MCP](https://typesense.org/docs/guide/typesense-cloud/mcp-server.html) | Inspect cluster metrics, manage clusters and index data. Use a collection's search API for your application's end-user queries. |
 | Discover pages and retrieve their contents | [Kagi](https://github.com/kagisearch/kagimcp), [Linkup](https://docs.linkup.so/pages/integrations/mcp/mcp), [Tavily](https://github.com/tavily-ai/tavily-mcp), [Exa](https://github.com/exa-labs/exa-mcp-server) | Search the provider's web coverage and fetch selected pages. Keep the URL, retrieval time and supporting passage with each result. |
@@ -17,35 +17,37 @@ Start with the collection you want to search. A question about a pack in this re
 - **Elastic.** Supply a Kibana URL and an API key for the configured space. Custom spaces use `/s/{SPACE_ID}/api/agent_builder/mcp`. Serverless also supports OAuth through the URL shown in the client's settings. Check your deployment's Agent Builder entitlement. [Connection guide](https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server)
 - **Meilisearch.** On v1.54 or later, enable the experimental `mcpRoute` feature and use a client supporting MCP version `2026-07-28`. Scope the bearer key to the intended indexes with `indexes.get`, `documents.get` and `search` for the full tool set. [Version and access requirements](https://github.com/meilisearch/documentation/blob/main/getting_started/integrations/mcp.mdx)
 
-### Try BM25 on the actual catalog
+### Search the directories offline
 
-The directory CLI ranks metadata locally. For a reproducible full-text comparison, this example builds an in-memory SQLite FTS5 index over **both servers and seed packs**. Run it from the directory checkout with a Python build that includes FTS5. Change the query to try phrases, prefixes or boolean operators. [SQLite FTS5 query and ranking reference](https://sqlite.org/fts5.html)
+The CLI searches metadata bundled in the checkout and Python wheel. Choose a scope to narrow the results.
 
-```python
-import json
-import sqlite3
-import subprocess
-import sys
+| Scope | Records | Searchable examples |
+| --- | --- | --- |
+| `servers` (default) | MCP servers | Name, tags, description, maintainer, language, transport |
+| `packs` | ta-amps seed packs | Pack ID, title, upstream manifest summary, status |
+| `retrievers` | RAG retrievers, full-text engines and rerankers | Name or catalog ID, tags, project notes, organization, category, license |
+| `libraries` | Vector search and approximate nearest neighbor libraries | Name or catalog ID, tags, index algorithms in project notes |
+| `all` | All four collections | Search across record types with one query |
 
-def catalog(*args):
-    return json.loads(subprocess.check_output([sys.executable, "main.py", *args], text=True))
-
-db = sqlite3.connect(":memory:")
-db.execute("CREATE VIRTUAL TABLE docs USING fts5(title, terms, kind UNINDEXED, url UNINDEXED)")
-servers = catalog("export", "--format", "json")
-packs = catalog("packs", "--format", "json")
-db.executemany("INSERT INTO docs VALUES (?, ?, ?, ?)", [
-    (s["name"], " ".join([s["description"], *s["tags"]]), "server", s["repo"] or s["homepage"])
-    for s in servers
-])
-db.executemany("INSERT INTO docs VALUES (?, ?, ?, ?)", [
-    (p["title"], p["pack_id"].replace("-", " "), "pack", p["guide_url"]) for p in packs
-])
-for title, kind, url in db.execute(
-    "SELECT title, kind, url FROM docs WHERE docs MATCH ? "
-    "ORDER BY bm25(docs, 5, 1), title, url LIMIT 5", ("retrieval OR rerank*",)
-):
-    print(kind, title, url, sep="\t")
+```bash
+mcp-dir search rag:tantivy --scope retrievers --format json
+mcp-dir search "CAGRA GPU acceleration" --scope libraries --mode bm25 --limit 3
+mcp-dir search "frame by frame video quality assurance" --scope packs --mode bm25 --limit 3
+mcp-dir search retrieval --scope all --limit 5 --format json
 ```
 
-For a Baltor or Teleion evaluation, try three types of query: a known pack ID, a capability expressed in other words, and a question with no relevant record. Label expected results before the trial. Compare top-five recall, first relevant rank, latency and erroneous matches against a lexical baseline using the same corpus revision. The [evaluation design](ta-amps.md) and [full pack index](ta-amps-seedpacks.csv) provide starting points for recording the queries and evidence.
+The default `lexical` mode requires every search term to appear as a substring. It handles partial names such as `postgre`. Use `bm25` when only some of your words are likely to appear in the catalog. An exact name or ID ranks first, followed by the number of distinct matching stems. English stemming lets a query for `facet` match `facets`. Weighted SQLite BM25 breaks ties using names, tags and descriptive metadata. Common English function words are ignored. Users can enter punctuation and operators as plain text. This mode requires Python with SQLite FTS5. A partial match can name the right product even when it lacks the requested capability. Check the linked project before acting on a result.
+
+For the fixed query sets, measured rankings and commands to repeat the comparison, see the [search benchmark](../benchmarks/search/README.md).
+
+Every JSON result has a `source`, `name` and `url`. Seed packs also have a `pack_id`, `manifest_url` and `summary`. A retriever or library includes an `id` such as `rag:tantivy` or `ann:faiss`, a project `url` and a `catalog_url` pointing to the source revision. A project can appear in several collections when the records serve different purposes.
+
+### Refresh the bundled metadata
+
+The [retrieval snapshot](retrieval-catalogs.json) records the full source commits for both sibling directories. Reproduce the committed snapshot with `python scripts/refresh_retrieval_catalog.py --check`. Add `--rag-repo PATH --ann-repo PATH` to use local Git clones offline. To update both pins to their latest main commits, run `python scripts/refresh_retrieval_catalog.py --update` and review the diff.
+
+Regenerate the [seed pack index](ta-amps-seedpacks.csv) and its [attribution](ta-amps-seedpacks.LICENSE.txt) from a clone of [the ta-amps seed pack library](https://github.com/ta-amps/seed-packs-library-of-nouns-and-verbs). Supply the full revision you intend to reference. For the current snapshot, run this command from the checkout.
+
+```bash
+python scripts/refresh_seedpacks.py /path/to/seed-packs-library-of-nouns-and-verbs 24b7d2970de959cd4b4bdb5c33f6a45cc9c9326b
+```

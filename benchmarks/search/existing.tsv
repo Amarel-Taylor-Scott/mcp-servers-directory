@@ -1,0 +1,18 @@
+group	scope	query	targets	rationale
+identity	servers	OpenSearch	server:OpenSearch	Cluster search server named exactly.
+identity	all	MotherDuck for DuckDB	server:MotherDuck for DuckDB	Exact provider catalog name, across all sources.
+identity	packs	audio-and-narration-qa	pack:audio-and-narration-qa	Stable ID of the narration QA pack.
+discovery	servers	find documents by facet	server:Meilisearch	Lists document and facet searches.
+discovery	servers	search the web for news images	server:Kagi	The listing explicitly covers both news and images.
+discovery	servers	compare country indicators over time	server:World Bank Data360|server:Data Commons	Development indicators or place-level statistical time series support comparison.
+discovery	servers	turn a PDF into Markdown	server:MarkItDown	Document conversion tool for files including PDFs.
+discovery	servers	look up errors in a video stream	server:Mux	Upstream video playback quality and error metrics.
+discovery	servers	find reusable motion graphics	server:RemotionUI Component Registry	Reusable motion elements for Remotion compositions.
+discovery	servers	query graph with Cypher	server:Neo4j	Explicitly supports graph queries in Cypher.
+discovery	servers	turn text into speech	server:ElevenLabs	Can generate speech from text.
+discovery	packs	frame by frame video quality assurance	pack:frame-by-frame-video-qa	Video QA pack explicitly scoped to individual frames.
+discovery	packs	IVF PQ	pack:faiss-ivf-pq-and-ann-index-cascade	Names both requested ANN techniques.
+ambiguous	all	captions	server:Mux|server:RemotionUI Component Registry|pack:frosted-widescreen-captions	Several interpretations include media track management, edited captions and caption styling.
+ambiguous	servers	search documents	server:Meilisearch|server:OpenSearch|server:Elastic Agent Builder|server:Google Drive	Broad document discovery, indexed document and file sources all qualify. Exemplars, not an exhaustive relevance set.
+negative	all	xqvplorbn		Unknown token. Both result count and source discipline matter.
+negative	packs	GSCmate		Server name deliberately restricted to packs.

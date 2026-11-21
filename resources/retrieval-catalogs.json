@@ -1,0 +1,519 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "rag": {
+      "repository": "Amarel-Taylor-Scott/rag-retrievers-rerankers-directory",
+      "commit": "084e7970f21a8c29efc28ec55ae78f983992f623",
+      "path": "data.py",
+      "url": "https://github.com/Amarel-Taylor-Scott/rag-retrievers-rerankers-directory/blob/084e7970f21a8c29efc28ec55ae78f983992f623/data.py"
+    },
+    "ann": {
+      "repository": "Amarel-Taylor-Scott/vector-search-ann-libs-directory",
+      "commit": "3ce98846fa32b85a12961c8b8682b21f8ad2ab2a",
+      "path": "data.py",
+      "url": "https://github.com/Amarel-Taylor-Scott/vector-search-ann-libs-directory/blob/3ce98846fa32b85a12961c8b8682b21f8ad2ab2a/data.py"
+    }
+  },
+  "entries": [
+    {
+      "id": "ann:annoy",
+      "source": "ann",
+      "name": "Annoy",
+      "org": "Spotify",
+      "category": "tree_quant",
+      "url": "https://github.com/spotify/annoy",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Tree-based ANN with memory-mapped, static indexes.",
+      "tags": [
+        "trees",
+        "mmap"
+      ]
+    },
+    {
+      "id": "ann:cuvs",
+      "source": "ann",
+      "name": "cuVS",
+      "org": "NVIDIA",
+      "category": "other",
+      "url": "https://github.com/NVIDIA/cuvs",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "GPU vector search with a CAGRA graph index and C++ and Python APIs.",
+      "tags": [
+        "gpu",
+        "cagra",
+        "cuda"
+      ]
+    },
+    {
+      "id": "ann:diskann",
+      "source": "ann",
+      "name": "DiskANN",
+      "org": "Microsoft",
+      "category": "other",
+      "url": "https://github.com/microsoft/DiskANN",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Disk-resident graph ANN for billion-scale datasets.",
+      "tags": [
+        "disk",
+        "billion-scale"
+      ]
+    },
+    {
+      "id": "ann:faiss",
+      "source": "ann",
+      "name": "FAISS",
+      "org": "Meta",
+      "category": "tree_quant",
+      "url": "https://github.com/facebookresearch/faiss",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Efficient similarity search (IVF/PQ/HNSW, CPU & GPU).",
+      "tags": [
+        "ivf",
+        "pq",
+        "gpu",
+        "popular"
+      ]
+    },
+    {
+      "id": "ann:falconn",
+      "source": "ann",
+      "name": "FALCONN",
+      "org": "FALCONN contributors",
+      "category": "other",
+      "url": "https://github.com/FALCONN-LIB/FALCONN",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Header-only C++ cosine search with multi-probe hyperplane and cross-polytope hashing.",
+      "tags": [
+        "lsh",
+        "cosine",
+        "hashing",
+        "header-only"
+      ]
+    },
+    {
+      "id": "ann:hnswlib",
+      "source": "ann",
+      "name": "hnswlib",
+      "org": "nmslib",
+      "category": "graph_hnsw",
+      "url": "https://github.com/nmslib/hnswlib",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Header-only HNSW implementation (C++/Python).",
+      "tags": [
+        "hnsw",
+        "header-only",
+        "popular"
+      ]
+    },
+    {
+      "id": "ann:jvector",
+      "source": "ann",
+      "name": "JVector",
+      "org": "DataStax",
+      "category": "graph_hnsw",
+      "url": "https://github.com/datastax/jvector",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Java graph index with HNSW-style layers and Vamana search graphs.",
+      "tags": [
+        "java",
+        "graph",
+        "vamana",
+        "hnsw"
+      ]
+    },
+    {
+      "id": "ann:ngt",
+      "source": "ann",
+      "name": "NGT",
+      "org": "Yahoo Japan",
+      "category": "graph_hnsw",
+      "url": "https://github.com/yahoojapan/NGT",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Graph & tree-based ANN library (Neighborhood Graph and Tree).",
+      "tags": [
+        "graph",
+        "tree"
+      ]
+    },
+    {
+      "id": "ann:nmslib",
+      "source": "ann",
+      "name": "nmslib",
+      "org": "nmslib",
+      "category": "graph_hnsw",
+      "url": "https://github.com/nmslib/nmslib",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Non-Metric Space Library — fast ANN across many methods.",
+      "tags": [
+        "ann",
+        "non-metric"
+      ]
+    },
+    {
+      "id": "ann:pynndescent",
+      "source": "ann",
+      "name": "PyNNDescent",
+      "org": "Leland McInnes",
+      "category": "other",
+      "url": "https://github.com/lmcinnes/pynndescent",
+      "open_source": true,
+      "license": "BSD-2-Clause",
+      "note": "Approximate nearest-neighbor descent (pure Python / Numba).",
+      "tags": [
+        "python",
+        "nn-descent"
+      ]
+    },
+    {
+      "id": "ann:scann",
+      "source": "ann",
+      "name": "ScaNN",
+      "org": "Google",
+      "category": "tree_quant",
+      "url": "https://github.com/google-research/google-research/tree/master/scann",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Anisotropic vector quantization for high recall at speed.",
+      "tags": [
+        "quantization",
+        "recall"
+      ]
+    },
+    {
+      "id": "ann:sptag",
+      "source": "ann",
+      "name": "SPTAG",
+      "org": "Microsoft",
+      "category": "other",
+      "url": "https://github.com/microsoft/SPTAG",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Space Partition Tree And Graph ANN library.",
+      "tags": [
+        "tree",
+        "graph"
+      ]
+    },
+    {
+      "id": "ann:usearch",
+      "source": "ann",
+      "name": "usearch",
+      "org": "Unum",
+      "category": "graph_hnsw",
+      "url": "https://github.com/unum-cloud/usearch",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Compact, SIMD-accelerated HNSW engine across many languages.",
+      "tags": [
+        "hnsw",
+        "simd",
+        "multi-language"
+      ]
+    },
+    {
+      "id": "ann:voyager",
+      "source": "ann",
+      "name": "Voyager",
+      "org": "Spotify",
+      "category": "graph_hnsw",
+      "url": "https://github.com/spotify/voyager",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "HNSW-based nearest-neighbor library (Python & Java).",
+      "tags": [
+        "hnsw",
+        "production"
+      ]
+    },
+    {
+      "id": "ann:vsag",
+      "source": "ann",
+      "name": "VSAG",
+      "org": "Ant Group",
+      "category": "other",
+      "url": "https://github.com/antgroup/vsag",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "C++ library with HGraph for dense vectors and SINDI for sparse vectors.",
+      "tags": [
+        "graph",
+        "sparse",
+        "dense",
+        "hgraph"
+      ]
+    },
+    {
+      "id": "rag:bm25s",
+      "source": "rag",
+      "name": "BM25S",
+      "org": "Xing Han Lù",
+      "category": "sparse_retrieval",
+      "url": "https://github.com/xhluca/bm25s",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Fast BM25 in pure NumPy/SciPy with eager sparse scoring.",
+      "tags": [
+        "bm25",
+        "fast"
+      ]
+    },
+    {
+      "id": "rag:cohere-rerank",
+      "source": "rag",
+      "name": "Cohere Rerank",
+      "org": "Cohere",
+      "category": "managed_reranker",
+      "url": "https://cohere.com",
+      "open_source": false,
+      "license": "Proprietary",
+      "note": "Hosted reranking API (Rerank models).",
+      "tags": [
+        "api",
+        "popular"
+      ]
+    },
+    {
+      "id": "rag:colbert",
+      "source": "rag",
+      "name": "ColBERT",
+      "org": "Stanford FutureData",
+      "category": "late_interaction",
+      "url": "https://github.com/stanford-futuredata/ColBERT",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Late-interaction retrieval over token-level embeddings.",
+      "tags": [
+        "late-interaction",
+        "colbert",
+        "popular"
+      ]
+    },
+    {
+      "id": "rag:fastplaid",
+      "source": "rag",
+      "name": "FastPlaid",
+      "org": "LightOn",
+      "category": "late_interaction",
+      "url": "https://github.com/lightonai/fast-plaid",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Indexes and searches per-token vectors from ColBERT or ColPali for text and page-image retrieval.",
+      "tags": [
+        "late-interaction",
+        "colbert",
+        "colpali",
+        "multi-vector"
+      ]
+    },
+    {
+      "id": "rag:flagembedding-bge-reranker",
+      "source": "rag",
+      "name": "FlagEmbedding (bge-reranker)",
+      "org": "BAAI",
+      "category": "reranker_model",
+      "url": "https://github.com/FlagOpen/FlagEmbedding",
+      "open_source": true,
+      "license": "MIT",
+      "note": "BGE embeddings & rerankers (bge-reranker) from BAAI.",
+      "tags": [
+        "bge",
+        "open-weights"
+      ]
+    },
+    {
+      "id": "rag:flashrank",
+      "source": "rag",
+      "name": "FlashRank",
+      "org": "Prithiviraj Damodaran",
+      "category": "reranker_lib",
+      "url": "https://github.com/PrithivirajDamodaran/FlashRank",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Ultra-light, fast reranking with small cross-encoders.",
+      "tags": [
+        "fast",
+        "lightweight"
+      ]
+    },
+    {
+      "id": "rag:jina-reranker",
+      "source": "rag",
+      "name": "Jina Reranker",
+      "org": "Jina AI",
+      "category": "managed_reranker",
+      "url": "https://jina.ai",
+      "open_source": false,
+      "license": "Proprietary",
+      "note": "Hosted reranker API (with open models available too).",
+      "tags": [
+        "api"
+      ]
+    },
+    {
+      "id": "rag:mxbai-rerank",
+      "source": "rag",
+      "name": "mxbai-rerank",
+      "org": "Mixedbread",
+      "category": "reranker_model",
+      "url": "https://huggingface.co/mixedbread-ai/mxbai-rerank-large-v1",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Open-weight cross-encoder reranker models.",
+      "tags": [
+        "open-weights",
+        "cross-encoder"
+      ]
+    },
+    {
+      "id": "rag:pyserini",
+      "source": "rag",
+      "name": "Pyserini",
+      "org": "Castorini",
+      "category": "sparse_retrieval",
+      "url": "https://github.com/castorini/pyserini",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Reproducible IR with sparse & dense retrieval (Lucene/FAISS).",
+      "tags": [
+        "ir",
+        "lucene",
+        "research"
+      ]
+    },
+    {
+      "id": "rag:qwen3-reranker-0-6b",
+      "source": "rag",
+      "name": "Qwen3-Reranker-0.6B",
+      "org": "Qwen",
+      "category": "reranker_model",
+      "url": "https://huggingface.co/Qwen/Qwen3-Reranker-0.6B",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Multilingual 0.6B-parameter reranker that scores query-document pairs with task-specific instructions.",
+      "tags": [
+        "multilingual",
+        "instruction-aware",
+        "open-weights"
+      ]
+    },
+    {
+      "id": "rag:ragatouille",
+      "source": "rag",
+      "name": "RAGatouille",
+      "org": "Answer.AI",
+      "category": "late_interaction",
+      "url": "https://github.com/AnswerDotAI/RAGatouille",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Easy training & use of ColBERT-style late-interaction models.",
+      "tags": [
+        "colbert",
+        "training"
+      ]
+    },
+    {
+      "id": "rag:rank-bm25",
+      "source": "rag",
+      "name": "rank_bm25",
+      "org": "dorianbrown",
+      "category": "sparse_retrieval",
+      "url": "https://github.com/dorianbrown/rank_bm25",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Simple, popular BM25 implementations in Python.",
+      "tags": [
+        "bm25",
+        "lexical",
+        "classic"
+      ]
+    },
+    {
+      "id": "rag:rankllm",
+      "source": "rag",
+      "name": "RankLLM",
+      "org": "Castorini",
+      "category": "reranker_lib",
+      "url": "https://github.com/castorini/rank_llm",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Python toolkit for listwise reranking of candidate passages with local models or hosted LLMs.",
+      "tags": [
+        "listwise",
+        "reranking",
+        "llm",
+        "python"
+      ]
+    },
+    {
+      "id": "rag:rerankers",
+      "source": "rag",
+      "name": "rerankers",
+      "org": "Answer.AI",
+      "category": "reranker_lib",
+      "url": "https://github.com/AnswerDotAI/rerankers",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "One unified API over many reranking methods and models.",
+      "tags": [
+        "unified",
+        "api"
+      ]
+    },
+    {
+      "id": "rag:sentence-transformers",
+      "source": "rag",
+      "name": "Sentence-Transformers",
+      "org": "UKPLab / Hugging Face",
+      "category": "reranker_lib",
+      "url": "https://github.com/UKPLab/sentence-transformers",
+      "open_source": true,
+      "license": "Apache-2.0",
+      "note": "Bi-encoders & cross-encoders for retrieval and reranking.",
+      "tags": [
+        "cross-encoder",
+        "popular"
+      ]
+    },
+    {
+      "id": "rag:tantivy",
+      "source": "rag",
+      "name": "Tantivy",
+      "org": "Tantivy contributors",
+      "category": "sparse_retrieval",
+      "url": "https://github.com/quickwit-oss/tantivy",
+      "open_source": true,
+      "license": "MIT",
+      "note": "Rust full-text search library for building inverted indexes and retrieving passages with BM25.",
+      "tags": [
+        "rust",
+        "inverted-index",
+        "bm25",
+        "lexical"
+      ]
+    },
+    {
+      "id": "rag:voyage-ai",
+      "source": "rag",
+      "name": "Voyage AI",
+      "org": "Voyage AI",
+      "category": "managed_reranker",
+      "url": "https://www.voyageai.com",
+      "open_source": false,
+      "license": "Proprietary",
+      "note": "Hosted embedding & reranking APIs.",
+      "tags": [
+        "api",
+        "embeddings"
+      ]
+    }
+  ]
+}

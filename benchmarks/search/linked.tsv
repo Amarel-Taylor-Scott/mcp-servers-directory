@@ -1,0 +1,7 @@
+group	scope	query	targets	rationale
+linked-identity	all	JVector	ann:jvector	Java graph library, uniquely named.
+linked-identity	all	FlashRank	rag:flashrank	Lightweight reranking project, uniquely named.
+linked-discovery	libraries	cosine similarity with locality sensitive hashing	ann:falconn	FALCONN implements multi-probe locality-sensitive hashing for cosine similarity.
+linked-discovery	libraries	index too large for RAM	ann:diskann|ann:annoy	DiskANN supports disk-resident indexes and Annoy provides memory-mapped static trees.
+linked-discovery	retrievers	rerank passages with a local model	rag:rankllm|rag:flashrank|rag:sentence-transformers	RankLLM supports local listwise ranking and either cross-encoder library can score passage candidates locally.
+linked-discovery	retrievers	full text index in Rust	rag:tantivy	Tantivy provides an embeddable Rust full-text index.

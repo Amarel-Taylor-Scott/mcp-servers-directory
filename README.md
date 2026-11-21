@@ -14,12 +14,16 @@ pip install -e .            # or: pip install -r requirements.txt
 mcp-dir list                # list all servers
 mcp-dir search postgres     # search the server catalog
 mcp-dir search retrieval --scope all --limit 5 --format json
+mcp-dir search "CAGRA GPU acceleration" --scope libraries --mode bm25 --limit 3
+mcp-dir search rag:tantivy --scope retrievers
 mcp-dir list --category search_engines
 mcp-dir packs video --format json  # find seed packs, with pinned guides and manifests
 mcp-dir categories          # show categories + counts
 mcp-dir export --format json > servers.json
 mcp-dir generate            # regenerate this README
 ```
+
+Search defaults to the server catalog. Use `--scope all` to include ta-amps seed packs, RAG retrievers and rerankers, and vector-search libraries. All four catalogs ship with the CLI. Use `--mode bm25` to rank partial matches when you describe a task in your own words. [Search examples and evaluation](resources/search-and-retrieval.md)
 
 ## At a glance
 
@@ -192,7 +196,7 @@ mcp-dir generate            # regenerate this README
 
 ## Related resources
 
-[Search and retrieval guide](resources/search-and-retrieval.md) compares index search, web retrieval, vector search and reranking, with an offline full-text example.
+[Search and retrieval guide](resources/search-and-retrieval.md) compares index search, web retrieval, vector search and reranking. It includes examples for searching across the catalogs offline.
 
 [ta-amps projects and seed packs](resources/ta-amps.md) connects Teleion Fabric, Herma and Eranos to reusable task templates. [Browse the full seed pack index](resources/ta-amps-seedpacks.csv).
 
