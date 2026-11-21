@@ -11,7 +11,7 @@ import sys
 
 def result_key(row: dict) -> str:
     source = row["source"]
-    if source in ("library", "retriever"):
+    if source in ("library", "retriever", "design-skill", "motion-tool"):
         return row["id"]
     identifier = row["pack_id"] if source == "pack" else row["name"]
     return f"{source}:{identifier}"

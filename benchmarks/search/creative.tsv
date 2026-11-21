@@ -1,0 +1,9 @@
+group	scope	query	targets	rationale
+creative-positive	design	check if my site is navigable using a keyboard	design:web-quality-accessibility	Includes keyboard checks in web accessibility audits.
+creative-positive	all	turn a pull request into a video to explain the changes	design:langchain-pr-to-video	Builds a video walkthrough from the diff and commits.
+creative-positive	design	make a storyboard from a shot list	design:scenario-storyboards	Generates storyboard panels from a shot list.
+creative-positive	design	review font loading and line spacing	design:mblode-typography-audit	Includes both type loading and typography spacing checks.
+creative-positive	all	animate math equations in Python	motion:manim-community	Renders programmatic mathematical scenes.
+creative-positive	motion	apply visual effects to layers in an EXR file	motion:natron	Supports EXR channel compositing with OpenFX.
+creative-positive	motion	make an animated text reel with music	motion:kinetype	Records kinetic text reels with a generated soundtrack.
+creative-negative	motion	repair corrupted video files		None of the tools describes recovering corrupted input files.

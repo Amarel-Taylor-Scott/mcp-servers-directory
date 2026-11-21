@@ -30,7 +30,7 @@ def test_search_requires_all_terms_and_defaults_to_servers():
 
 def test_combined_search_scopes_links_and_ranking():
     rows = search("--scope", "all", "video")
-    assert {r["source"] for r in rows} == {"server", "pack"}
+    assert {"server", "pack"} <= {r["source"] for r in rows}
     assert search("--scope", "all", "--limit", "2", "video") == rows[:2]
     packs = search("--scope", "packs", "video")
     assert packs == [r for r in rows if r["source"] == "pack"]

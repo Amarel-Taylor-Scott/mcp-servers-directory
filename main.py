@@ -68,6 +68,25 @@ def _read_packs():
             yield {**row, "task_objects": int(row["task_objects"]), "tasks": int(row["tasks"])}
 
 
+def _design_motion_candidates(scope):
+    commit = _resource("design-motion.commit").read_text(encoding="utf-8").strip()
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise ValueError("Invalid source commit in design-motion.commit")
+    upstream = "https://github.com/Amarel-Taylor-Scott/ai-agent-skills-directory"
+    catalog_url = f"{upstream}/blob/{commit}/resources/design-motion.csv"
+    kinds = {"skill": ("design", "design-skill"), "tool": ("motion", "motion-tool")}
+    with _resource("design-motion.csv").open(encoding="utf-8", newline="") as stream:
+        for row in csv.DictReader(stream):
+            collection, source = kinds[row["kind"]]
+            if scope not in ("all", collection):
+                continue
+            slug = row["id"]
+            tags = [tag.strip() for tag in row["tags"].split("|") if tag.strip()]
+            entry = {**row, "id": f"{collection}:{slug}", "source": source, "tags": tags,
+                     "url": row["repo_url"], "catalog_url": catalog_url}
+            yield entry, [row["name"], entry["id"], slug], tags, [row["description"], row["license"], source]
+
+
 def _search_candidates(scope: str):
     if scope in {"servers", "all"}:
         for server in SERVERS:
@@ -93,6 +112,8 @@ def _search_candidates(scope: str):
             if entry["open_source"]:
                 fields.append("open source")
             yield result, [entry["name"], entry["id"]], entry["tags"], fields
+    if scope in {"design", "motion", "all"}:
+        yield from _design_motion_candidates(scope)
 
 
 def _lexical_search(candidates, query):
@@ -272,9 +293,10 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--official", action="store_true", help="Only official/first-party servers")
     pl.set_defaults(func=cmd_list)
 
-    ps = sub.add_parser("search", help="Search the directory and its linked retrieval catalogs")
+    ps = sub.add_parser("search", help="Search the directory and its linked catalogs")
     ps.add_argument("query", nargs="+", help="Words to find across indexed metadata")
-    ps.add_argument("--scope", choices=["servers", "packs", "retrievers", "libraries", "all"], default="servers")
+    ps.add_argument("--scope", choices=["servers", "packs", "retrievers", "libraries", "design", "motion", "all"],
+                    default="servers")
     ps.add_argument("--mode", choices=["lexical", "bm25"], default="lexical",
                     help="Match every substring (lexical) or rank token matches by coverage and BM25 (requires SQLite FTS5)")
     ps.add_argument("--format", choices=["text", "json"], default="text")

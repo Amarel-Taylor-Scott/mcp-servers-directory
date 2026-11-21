@@ -37,4 +37,4 @@ packages = ["mcp_directory_resources"]
 mcp_directory_resources = "resources"
 
 [tool.setuptools.package-data]
-mcp_directory_resources = ["retrieval-catalogs.json", "ta-amps-seedpacks.csv", "ta-amps-seedpacks.LICENSE.txt"]
+mcp_directory_resources = ["design-motion.csv", "design-motion.commit", "retrieval-catalogs.json", "ta-amps-seedpacks.csv", "ta-amps-seedpacks.LICENSE.txt"]
