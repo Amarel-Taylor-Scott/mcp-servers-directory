@@ -57,7 +57,9 @@ def generate() -> str:
     out.append("```bash")
     out.append("pip install -e .            # or: pip install -r requirements.txt")
     out.append("mcp-dir list                # list all servers")
-    out.append("mcp-dir search postgres     # search name/description/tags")
+    out.append("mcp-dir search postgres     # search the server catalog")
+    out.append("mcp-dir search retrieval --scope all --limit 5 --format json")
+    out.append("mcp-dir list --category search_engines")
     out.append("mcp-dir packs video --format json  # find seed packs, with pinned guides and manifests")
     out.append("mcp-dir categories          # show categories + counts")
     out.append("mcp-dir export --format json > servers.json")
@@ -79,6 +81,8 @@ def generate() -> str:
         out.append("")
 
     out.append("## Related resources\n")
+    out.append("[Search and retrieval guide](resources/search-and-retrieval.md) compares index search, web retrieval, "
+               "vector search and reranking, with an offline full-text example.\n")
     out.append("[ta-amps projects and seed packs](resources/ta-amps.md) connects Teleion Fabric, "
                "Herma and Eranos to reusable task templates. "
                "[Browse the full seed pack index](resources/ta-amps-seedpacks.csv).\n")

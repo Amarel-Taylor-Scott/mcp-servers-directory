@@ -18,10 +18,8 @@ from __version__ import __version__
 from data import SERVERS, Category, Server
 
 
-def _matches(s: Server, query: str) -> bool:
-    q = query.lower()
-    hay = " ".join([s.name, s.description, s.maintainer, s.category.value, " ".join(s.tags)]).lower()
-    return q in hay
+def _normalize(text: str) -> str:
+    return " ".join(text.casefold().replace("-", " ").replace("_", " ").split())
 
 
 def _to_dict(s: Server) -> dict:
@@ -54,27 +52,70 @@ def cmd_list(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_search(args: argparse.Namespace) -> int:
-    servers = [s for s in SERVERS if _matches(s, args.query)]
-    _print_table(servers)
-    print(f"\n{len(servers)} match(es) for {args.query!r}.")
-    return 0
-
-
-def cmd_packs(args: argparse.Namespace) -> int:
+def _read_packs():
     filename = "ta-amps-seedpacks.csv"
     index = Path(__file__).with_name("resources") / filename
     if not index.is_file():
         # Wheels install the same CSV as package data under a distinct package name.
         index = files("mcp_directory_resources").joinpath(filename)
 
-    terms = " ".join(args.query).casefold().split()
-    matches = []
     with index.open(encoding="utf-8", newline="") as stream:
         for row in csv.DictReader(stream):
-            searchable = " ".join((row["pack_id"], row["title"], row["status"])).casefold()
-            if all(term in searchable for term in terms):
-                matches.append({**row, "task_objects": int(row["task_objects"]), "tasks": int(row["tasks"])})
+            yield {**row, "task_objects": int(row["task_objects"]), "tasks": int(row["tasks"])}
+
+
+def _search_candidates(scope: str):
+    if scope in {"servers", "all"}:
+        for server in SERVERS:
+            result = {**_to_dict(server), "source": "server", "url": server.repo or server.homepage}
+            fields = [server.description, server.maintainer, server.category.label, server.category.value, server.language]
+            yield result, [server.name], server.tags, fields + result["transports"]
+    if scope in {"packs", "all"}:
+        for pack in _read_packs():
+            result = {**pack, "name": pack["title"], "source": "pack", "url": pack["guide_url"]}
+            yield result, [pack["title"], pack["pack_id"]], (), [pack["status"], "ta-amps"]
+
+
+def cmd_search(args: argparse.Namespace) -> int:
+    query = _normalize(" ".join(args.query))
+    terms = query.split()
+    ranked = []
+    for row, names, tags, fields in _search_candidates(args.scope):
+        names = [_normalize(name) for name in names]
+        tags = {_normalize(tag) for tag in tags}
+        haystack = " ".join([*names, *tags, *map(_normalize, fields)])
+        if not terms or not all(term in haystack for term in terms):
+            continue
+        # Prefer exact names and IDs, then exact tags and matches within names.
+        key = (-(query in names), -(query in tags), -sum(term in tags for term in terms),
+               -sum(any(term in name for name in names) for term in terms), names[0], row["source"])
+        ranked.append((key, row))
+    ranked.sort(key=lambda item: item[0])
+    matches = [row for _, row in ranked[:args.limit]]
+    if args.format == "json":
+        print(json.dumps(matches, ensure_ascii=False, indent=2))
+    else:
+        for row in matches:
+            detail = row["description"] if row["source"] == "server" else row["status"]
+            print(f"[{row['source']}] {row['name']}  {detail}\n  {row['url']}")
+        print(f"{len(matches)} of {len(ranked)} match(es) for {' '.join(args.query)!r}.")
+    return 0
+
+
+def _positive_limit(value: str) -> int:
+    limit = int(value)
+    if limit < 1:
+        raise argparse.ArgumentTypeError("limit must be at least 1")
+    return limit
+
+
+def cmd_packs(args: argparse.Namespace) -> int:
+    terms = " ".join(args.query).casefold().split()
+    matches = []
+    for row in _read_packs():
+        searchable = " ".join((row["pack_id"], row["title"], row["status"])).casefold()
+        if all(term in searchable for term in terms):
+            matches.append(row)
 
     if args.format == "json":
         print(json.dumps(matches, ensure_ascii=False, indent=2))
@@ -143,8 +184,11 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--official", action="store_true", help="Only official/first-party servers")
     pl.set_defaults(func=cmd_list)
 
-    ps = sub.add_parser("search", help="Search name/description/tags")
-    ps.add_argument("query")
+    ps = sub.add_parser("search", help="Find servers or seed packs by matching all query terms")
+    ps.add_argument("query", nargs="+", help="Words to find across indexed metadata")
+    ps.add_argument("--scope", choices=["servers", "packs", "all"], default="servers")
+    ps.add_argument("--format", choices=["text", "json"], default="text")
+    ps.add_argument("--limit", type=_positive_limit, help="Maximum results to display")
     ps.set_defaults(func=cmd_search)
 
     pp = sub.add_parser("packs", help="List or search ta-amps seed packs")
