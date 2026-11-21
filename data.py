@@ -184,6 +184,10 @@ SERVERS: list[Server] = [
            repo="https://github.com/browserbase/mcp-server-browserbase", auth_required=True, tags=("browser", "cloud")),
 
     # --- Cloud & DevOps ---
+    Server("Teleion Fabric", "Lease Tasks and search versioned Task Objects. Public access is documented through 2026-12-31.",
+           Category.cloud_devops, "Teleion Labs", official=True, transports=(Transport.http,),
+           install="(remote HTTP) https://fabric.teleionlabs.com/mcp",
+           repo="https://github.com/ta-amps/teleion-fabric-infrastructure-work-and-storage-engine", tags=("teleion", "ta-amps", "queues", "leases", "task-objects")),
     Server("Terraform Registry", "Look up Terraform providers, modules and policies in the public registry without a token.",
            Category.cloud_devops, "HashiCorp", official=True, language="Go", transports=(Transport.stdio, Transport.http),
            install="docker run -i --rm hashicorp/terraform-mcp-server",
@@ -223,6 +227,10 @@ SERVERS: list[Server] = [
            homepage="https://docs.devin.ai/work-with-devin/deepwiki-mcp", tags=("github", "docs", "code-search")),
 
     # --- Productivity & docs ---
+    Server("Eranos", "Browse nonprofit kits and practice-check a draft. Public read-only access is documented through 2026-12-31.",
+           Category.productivity, "Teleion Labs", official=True, transports=(Transport.http,),
+           install="(remote HTTP) https://eranosforgood.org/mcp",
+           repo="https://github.com/ta-amps/eranos-public-marketplace-for-public-good-token-burn", tags=("teleion", "ta-amps", "nonprofits", "public-good", "kits")),
     Server("Atlassian", "Search and update Jira issues and Confluence pages with the connected account's permissions.",
            Category.productivity, "Atlassian", official=True, transports=(Transport.http,), auth_required=True,
            install="(remote HTTP) https://mcp.atlassian.com/v2/mcp",
@@ -275,6 +283,10 @@ SERVERS: list[Server] = [
            repo="https://github.com/modelcontextprotocol/servers", tags=("time", "reference")),
 
     # --- Monitoring ---
+    Server("Mux", "Inspect video asset status, captions and playback quality in a Mux account. Available actions depend on token permissions.",
+           Category.monitoring, "Mux", official=True, transports=(Transport.http,), auth_required=True,
+           install="(remote HTTP) https://mcp.mux.com",
+           homepage="https://www.mux.com/docs/integrations/mcp-server", tags=("video", "captions", "playback", "quality")),
     Server("Grafana", "Read dashboards and query observability data with the listed read-only configuration.",
            Category.monitoring, "Grafana Labs", official=True, language="Go", auth_required=True,
            transports=(Transport.stdio, Transport.http, Transport.sse), install="uvx mcp-grafana --disable-write",
@@ -285,6 +297,10 @@ SERVERS: list[Server] = [
            repo="https://github.com/seifip/kilobat-cli", tags=("network", "macos", "diagnostics")),
 
     # --- AI / ML ---
+    Server("Teleion Fabric Shim (Herma)", "Discover agent capabilities and preview context for a model. Public access is documented through 2026-12-31.",
+           Category.ai_ml, "Teleion Labs", official=True, transports=(Transport.http,),
+           install="(remote HTTP) https://shim.teleionlabs.com/mcp",
+           repo="https://github.com/ta-amps/herma-infrastructure-shim-for-intelligent-agents", tags=("teleion", "ta-amps", "herma", "context", "agent-harness")),
     Server("Hugging Face Hub", "Search public models, datasets, Spaces and papers. Sign in for account-specific tools.",
            Category.ai_ml, "Hugging Face", official=True, language="TypeScript", transports=(Transport.http, Transport.stdio),
            install="(remote HTTP) https://huggingface.co/mcp", repo="https://github.com/huggingface/hf-mcp-server",
@@ -307,6 +323,10 @@ SERVERS: list[Server] = [
            repo="https://github.com/chroma-core/chroma-mcp", tags=("vector", "rag")),
 
     # --- Design & visualization ---
+    Server("RemotionUI Component Registry", "Find reusable captions, transitions and motion graphics for Remotion compositions.",
+           Category.visualization, "RemotionUI", official=True, install="npx -y remotion-ui-mcp",
+           repo="https://github.com/riaz37/remotion-ui", homepage="https://remotionui.com/docs/mcp",
+           tags=("video", "motion-graphics", "captions", "remotion", "components")),
     Server("Figma", "Read design context and create or edit content in authorized Figma files.",
            Category.visualization, "Figma", official=True, transports=(Transport.http,), auth_required=True,
            install="(remote HTTP) https://mcp.figma.com/mcp",

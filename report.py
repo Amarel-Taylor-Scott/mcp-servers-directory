@@ -77,6 +77,11 @@ def generate() -> str:
         out.extend(_row(s) for s in servers)
         out.append("")
 
+    out.append("## Related resources\n")
+    out.append("[ta-amps projects and seed packs](resources/ta-amps.md) connects Teleion Fabric, "
+               "Herma and Eranos to reusable task templates. "
+               "[Browse the full seed pack index](resources/ta-amps-seedpacks.csv).\n")
+
     out.append("## What is MCP?\n")
     out.append("The Model Context Protocol standardizes how applications provide context to "
                "LLMs. A **client** (e.g. Claude Desktop) connects to one or more **servers**, "
