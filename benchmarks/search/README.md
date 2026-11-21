@@ -29,3 +29,7 @@ The original discovery set informed the choice to try stemming after a singular/
 BM25 returned Slack for a request to recover permanently deleted messages. Stemming also returned issue trackers for a passport-renewal query. A match can point to the right product or to a shared word without satisfying the requested action.
 
 These hand-picked cases measure performance on the listed tasks. A traffic-weighted success rate would require representative usage data and broader relevance judgments. Keep the queries and labels fixed when comparing ranking changes.
+
+## Design skills and motion tools
+
+Run `python benchmarks/search/evaluate.py --cases benchmarks/search/creative.tsv --mode bm25` to check seven task queries and one unsupported request. With the 24-entry design and motion catalog pinned at `fd94c7066dd7667d6975d03354ce7d737d5cf350`, BM25 ranked the labeled item first for all seven tasks, including Manim Community for animating equations in Python and Scenario Storyboards for converting a shot list into panels. Lexical mode returned zero results for all eight natural-language queries. On the unsupported request to repair corrupted video files, BM25 returned motion tools that mention video or files. The labels were selected before running either mode.

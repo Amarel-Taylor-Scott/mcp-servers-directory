@@ -27,13 +27,17 @@ The CLI searches metadata bundled in the checkout and Python wheel. Choose a sco
 | `packs` | ta-amps seed packs | Pack ID, title, upstream manifest summary, status |
 | `retrievers` | RAG retrievers, full-text engines and rerankers | Name or catalog ID, tags, project notes, organization, category, license |
 | `libraries` | Vector search and approximate nearest neighbor libraries | Name or catalog ID, tags, index algorithms in project notes |
-| `all` | All four collections | Search across record types with one query |
+| `design` | Design and motion-design instruction skills | Skill name, ID, tags, description, license |
+| `motion` | Standalone creative tools | Project name, ID, tags, description, license |
+| `all` | All six collections | Search across record types with one query |
 
 ```bash
 mcp-dir search rag:tantivy --scope retrievers --format json
 mcp-dir search "CAGRA GPU acceleration" --scope libraries --mode bm25 --limit 3
 mcp-dir search "frame by frame video quality assurance" --scope packs --mode bm25 --limit 3
 mcp-dir search retrieval --scope all --limit 5 --format json
+mcp-dir search storyboards --scope design --limit 3
+mcp-dir search 'animate letterforms with Python' --scope motion --mode bm25 --limit 3 --format json
 ```
 
 The default `lexical` mode requires every search term to appear as a substring. It handles partial names such as `postgre`. Use `bm25` when only some of your words are likely to appear in the catalog. An exact name or ID ranks first, followed by the number of distinct matching stems. English stemming lets a query for `facet` match `facets`. Weighted SQLite BM25 breaks ties using names, tags and descriptive metadata. Common English function words are ignored. Users can enter punctuation and operators as plain text. This mode requires Python with SQLite FTS5. A partial match can name the right product even when it lacks the requested capability. Check the linked project before acting on a result.
@@ -43,6 +47,11 @@ For the fixed query sets, measured rankings and commands to repeat the compariso
 Every JSON result has a `source`, `name` and `url`. Seed packs also have a `pack_id`, `manifest_url` and `summary`. A retriever or library includes an `id` such as `rag:tantivy` or `ann:faiss`, a project `url` and a `catalog_url` pointing to the source revision. A project can appear in several collections when the records serve different purposes.
 
 ### Refresh the bundled metadata
+
+The design and motion scopes use the [skills directory's companion catalog](https://github.com/Amarel-Taylor-Scott/ai-agent-skills-directory/blob/main/resources/design-motion.csv).
+Design skills contain authoring instructions. Motion tools are standalone projects. Each JSON result includes the project URL, a revision-specific `evidence_url`, and a `catalog_url` for the pinned source CSV. Use the full `design:` or `motion:` ID for an exact lookup.
+
+The [bundled CSV](design-motion.csv) matches the [recorded commit](design-motion.commit). Run `python scripts/refresh_design_motion.py --check` to compare it to upstream. Add `--repo PATH` to read that revision from a local clone. To refresh, set `resources/design-motion.commit` to the full source commit, then run the script without `--check` and review both files.
 
 The [retrieval snapshot](retrieval-catalogs.json) records the full source commits for both sibling directories. Reproduce the committed snapshot with `python scripts/refresh_retrieval_catalog.py --check`. Add `--rag-repo PATH --ann-repo PATH` to use local Git clones offline. To update both pins to their latest main commits, run `python scripts/refresh_retrieval_catalog.py --update` and review the diff.
 
